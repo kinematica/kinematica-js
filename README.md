@@ -72,3 +72,45 @@ setTimeout(simulation.stop, 500); // Run for half a second (at least), then stop
 We'll need to be careful of a few things.
 
 1. Removing variables or parameters from the model might screw up dependencies; it will be important to unset the current values of storage variables so that, if a dependency is removed, an error will come up on the next update call. In other words, we need to make sure we clean up the value storage as we delete the configuration object in the same way that we create the value storage when we add the configuration object (see the above code block, in the models array, for examples of configuration objects).
+
+## Roadmap
+
+### Model
+
+- [ ] Come up with a bunch of tests for this API; in particular, come up with configurations that should patently fail, and assert that they should cause errors to be thrown.
+- [ ] Flesh out the update and getter API.
+- [ ] Come up with tests for the update and getter API.
+- [ ] Add a testing framework.
+- [ ] Create a skeleton of the library.
+- [ ] Configure continuous integration for testing.
+- [ ] Add JSDoc.
+- [ ] Start implementing the model API.
+
+### Controller
+
+- [ ] Specify a list of update functions (initially just updateVariables) that need to be called at set intervals.
+
+### GUI
+
+- [ ] Specify controller functions for recalculating static resources.
+- [ ] Create an API for updating values of static parameters.
+- [ ] Create an API for adding message sending from a view.
+- [ ] Use dat.gui to make calls to this API to allow for user interactivity.
+
+### Visualization
+
+- [ ] Define what configuration looks like for visualization objects.
+- [ ] Define what Konva configuration looks like (e.g. scaling, container, etc.)
+- [ ] Figure out how to do batch draws in Konva efficiently.
+- [ ] Create a Konva wrapper with an API.
+- [ ] Create visualization constructor + add/remove visual objects API.
+
+### Metrics
+
+- [ ] Design a metrics table; just decide how it looks.
+- [ ] Create an adder/remover and a constructor for metrics, as well as an update function.
+
+### Plotting
+
+- [ ] See whether Plotly is useful.
+- [ ] Start brainstorming an API and use cases.
