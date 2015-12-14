@@ -34,27 +34,26 @@ p = [
 // These are the physical variables we are interested in; ORDER MATTERS.
 vars = [
   {
-    name: "x",                    // NECESSARY
-    shape: [],               // implement later; length=dims, tuple gives shape. will be very helpful for interpreting.
+    name: "x",                    // NECESSARY; must match shape and type, if they are provided
+    shape: [],                    // implement later; will be very helpful for interpreting.
+    type: "number",               // can be "number", "string", "boolean", or "object"
     init: 0,                      // only required if the formula is iterative
     prettyName: "x_{car}",        // defaults to name; can be rendered in KaTeX
     desc: "The current position of our car.",   // optional, but recommended
     units: "m",                   // not yet implemented, but part of api; will be handy soon
-    formula: function(x, t, dt, params) {
+    formula: function(variables, params) {
       // each update function takes as arguments:
-      // 1. the current value of this variable
-      // 2. the current simulation time
-      // 3. the time elapsed since the last recalculation
-      // 4. the collection of parameters characterizing this simulation
+      // 1. the collection of updating variables (includes t and dt)
+      // 2. the collection of parameters characterizing this simulation
       // each function should return the new value of the variable;
       // the function does not necessarily have to use x, t, dt,
       // or params.
-      return x + params.v0+dt;
+      return variables.x + params.v0+dt;
     }                             // NECESSARY
   },{
     name: "E",
     init: 0,
-    formula: function(x, t, dt, params) {
+    formula: function(variables, params) {
       return 0.5*params.m*params.v*params.v;
     }
   }
