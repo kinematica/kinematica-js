@@ -35,7 +35,7 @@ p = [
 vars = [
   {
     name: "x",                    // NECESSARY
-    dimensions: [],               // implement later; length=dims, tuple gives shape. will be very helpful for interpreting.
+    shape: [],               // implement later; length=dims, tuple gives shape. will be very helpful for interpreting.
     init: 0,                      // only required if the formula is iterative
     prettyName: "x_{car}",        // defaults to name; can be rendered in KaTeX
     desc: "The current position of our car.",   // optional, but recommended
