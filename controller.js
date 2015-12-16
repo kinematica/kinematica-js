@@ -1,4 +1,4 @@
-// Make a model object with necessary methods. Instantiate via IIFE.
+// Make a controller object with necessary methods. Instantiate via IIFE.
 // Gross plagiarism of (inspiration from?) Konva/src/Animation.js.
 (function(Kinematica){
     'use strict';
@@ -36,4 +36,6 @@
     })();
     
     // TODO: Flesh out the rest of this based on Konva's animation class.
+    // Will attach methods to Kinematica, as they do with Konva.
     // https://github.com/konvajs/konva/blob/master/src/Animation.js
+})();
