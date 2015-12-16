@@ -48,23 +48,62 @@ vars = [
       // each function should return the new value of the variable;
       // the function does not necessarily have to use x, t, dt,
       // or params.
-      return variables.x + params.v0+dt;
+      return variables.x.value() + params.v.value0()*variables.dt.value();
     }                             // NECESSARY
   },{
     name: "E",
     init: 0,
     formula: function(variables, params) {
-      return 0.5*params.m*params.v*params.v;
+      return 0.5*params.m.value()*params.v.value()*params.v.value();
     }
   }
 ];
 
-// Eventually, instantiating a simulation object will potentially involve more interesting configuration information. For now, you just instantiate, then you add parameters and variables, and that's it.
+// Eventually, instantiating a simulation object will
+// potentially involve more interesting configuration
+// information. For now, you just instantiate, then
+// you add parameters and variables, and that's it.
 simulation = new Kinematica();    // Instantiate a simulation object
 simulation.addParameters(p);      // Add parameters for the simulation
 simulation.addVariables(vars);    // Add variables in order
 simulation.start();               // Start running the simulation (no visuals added yet)
 setTimeout(simulation.stop, 500); // Run for half a second (at least), then stop
+```
+
+## Getting the current variable value from the model
+
+You can only get variables from the model; setting is only done
+through formulas provided, and updating is only done when by the
+controller. For this reason, accessing values requires making
+function calls.
+
+I might change the heirarchies slightly, so that e.g. getting the
+value of `x` would involve writing `Kinematica.Model.getValue['x']()`
+instead of `Kinematica.Model.variable['x'].value()`; the advantage of the
+former is that it would be easier to conglomorate getter methods
+in a single `values` object, to be passed to all `formula` methods
+when updating (or, even if `parameters` and `variables` are kept
+separate, it still would make the update `formula`s less verbose).
+But there is no reason that both interfaces cannot be implemented,
+where the following code is called on the insertion of a simulation
+variable to create the convenience getter method:
+
+```javascript
+if (this.variable[x]) {
+    this.value[x] = this.variable[x].value;
+} else if (this.parameter[x]) {
+    this.value[x] = this.parameter[x].value;
+} else {
+    throw new Error('Name is not a valid parameter or variable: ' + x);
+}
+```
+
+Upon removal of a simulation variable, clean up this convenience method:
+
+```javascript
+delete this.value[x]
+delete this.variable[x]
+delete this.parameter[x]
 ```
 
 ## Things to watch out for
@@ -89,6 +128,7 @@ We'll need to be careful of a few things.
 ### Controller
 
 - [ ] Specify a list of update functions (initially just updateVariables) that need to be called at set intervals.
+- [x] Determine how to find time and update at intervals.
 
 ### GUI
 
